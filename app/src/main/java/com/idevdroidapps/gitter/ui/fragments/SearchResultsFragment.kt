@@ -1,7 +1,6 @@
 package com.idevdroidapps.gitter.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,10 @@ import com.idevdroidapps.gitter.ui.adapters.ReposAdapter
 import com.idevdroidapps.gitter.ui.adapters.ReposLoadStateAdapter
 import com.idevdroidapps.gitter.ui.viewmodels.SharedViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 /**
@@ -39,9 +41,7 @@ class SearchResultsFragment : Fragment() {
     ): View {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_search_results, container, false)
-
         initAdapter()
-
         viewModel.currentQuery.observe(viewLifecycleOwner, { query ->
             searchJob?.cancel()
             searchJob = lifecycleScope.launch {
@@ -49,11 +49,22 @@ class SearchResultsFragment : Fragment() {
                     adapter.submitData(it)
                 }
             }
-
         })
 
         binding.viewModel = viewModel
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.recyclerViewRepos.scrollToPosition(0) }
+        }
     }
 
     /**

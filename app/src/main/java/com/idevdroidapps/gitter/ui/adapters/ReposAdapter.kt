@@ -12,7 +12,7 @@ import com.idevdroidapps.gitter.data.models.Repo
 class ReposAdapter : PagingDataAdapter<Repo, ViewHolder>(REPO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return RepoViewHolder.create(parent)
+        return RepoViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

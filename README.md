@@ -2,13 +2,13 @@
 GitHub Repo API demo
 
 ## Specifications / Requirements
-As a result from a search, the app should:
-- Do Stuff
+- Allow the user to look for repositories based on a keyword or phrase.
 
 ## Built With
 * [Kotlin](https://kotlinlang.org/)
 * [Android Architecture Components](https://developer.android.com/topic/libraries/architecture)
 * [GitHub API](https://docs.github.com/en/free-pro-team@latest/rest)
+* [Retrofit](https://square.github.io/retrofit/)
 
 ## Instructions
 This demo uses the Gradle build system.
@@ -22,6 +22,7 @@ This demo uses the Gradle build system.
 ## Issues Encountered
 - Use of the DataBinding Library can often require to invalidate project cache and rebuild the project in order to generate implementation classes.
 - Android Studio produces a warning during the build process: "WARNING: API 'BaseVariant.getApplicationIdTextResource' is obsolete" which is caused by current SafeArgs plugin.
+
 ## Testing
 An Instrumented test has been recorded to demonstrate the MainActivity functionality
 Instrumented tests much be run on a physical device

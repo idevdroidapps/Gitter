@@ -43,10 +43,6 @@ class SearchResultsFragment : Fragment() {
         initAdapter()
 
         viewModel.currentQuery.observe(viewLifecycleOwner, { query ->
-            Log.d(
-                "GitHub",
-                "SearchResultsFragment; Change to CurrentQuery detected. New Query is: $query"
-            )
             searchJob?.cancel()
             searchJob = lifecycleScope.launch {
                 viewModel.searchRepo(query).collectLatest {
@@ -93,6 +89,6 @@ class SearchResultsFragment : Fragment() {
                 ).show()
             }
         }
-
     }
+
 }

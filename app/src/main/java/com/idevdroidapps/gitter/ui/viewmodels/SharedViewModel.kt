@@ -20,6 +20,7 @@ class SharedViewModel(private val githubRepository: GithubRepository) :
     ViewModel() {
 
     val currentQuery: LiveData<String> get() = mCurrentQuery
+    private var mPreviousQuery: String? = null
     private var mCurrentQuery = MutableLiveData<String>()
     private var mCurrentSearchResult: Flow<PagingData<Repo>>? = null
 
@@ -31,11 +32,12 @@ class SharedViewModel(private val githubRepository: GithubRepository) :
     fun searchRepo(queryString: String): Flow<PagingData<Repo>> {
         Log.d("GitHub", "SharedViewModel; Starting GitHub Query for: $queryString")
         val lastResult = mCurrentSearchResult
-        if (queryString == mCurrentQuery.value && lastResult != null) {
+        if (queryString == mPreviousQuery && lastResult != null) {
             return lastResult
         }
         val newResult: Flow<PagingData<Repo>> = githubRepository.getSearchResultStream(queryString)
             .cachedIn(viewModelScope)
+        mPreviousQuery = queryString
         mCurrentSearchResult = newResult
         return newResult
     }

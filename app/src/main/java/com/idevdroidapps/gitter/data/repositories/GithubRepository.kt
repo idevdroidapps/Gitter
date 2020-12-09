@@ -16,7 +16,7 @@ class GithubRepository(private val service: GithubService) {
      * every time we get more data from the network.
      */
     fun getSearchResultStream(query: String): Flow<PagingData<Repo>> {
-        Log.d("GithubRepository", "New query: $query")
+        Log.d("GitHub", "GithubRepository; Requesting for: $query")
         return Pager(
             config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = { GithubPagingSource(service, query) }

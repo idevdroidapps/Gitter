@@ -6,9 +6,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusableInTouchMode="true"
         android:background="@android:color/background_light"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         tools:context="com.idevdroidapps.gitter.ui.fragments.RepoDetailsFragment">
 
         <com.google.android.material.button.MaterialButton
@@ -25,20 +26,19 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="112dp"
+            android:layout_marginTop="16dp"
             android:text="@{viewModel.currentRepo.owner.login}"
-            app:layout_constraintBottom_toTopOf="@+id/repo_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/avatar"
             tools:text="idevdroidapps" />
 
         <ImageView
             android:id="@+id/close_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:contentDescription="@string/hint_search"
+            android:padding="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close_48dp" />
@@ -48,12 +48,11 @@
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:contentDescription="@string/hint_search"
-            app:userAvatar="@{viewModel.currentRepo.owner.avatarUrl}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/repo_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.32999998"
+            app:userAvatar="@{viewModel.currentRepo.owner.avatarUrl}"
             tools:srcCompat="@drawable/ic_github_96dp" />
 
         <TextView
@@ -137,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="48dp"
+            android:layout_marginBottom="32dp"
             android:paddingVertical="@dimen/row_item_margin_vertical"
             android:textSize="@dimen/repo_description_size"
             app:layout_constraintBottom_toTopOf="@+id/browser_button"

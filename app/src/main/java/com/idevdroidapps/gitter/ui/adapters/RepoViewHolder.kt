@@ -15,7 +15,7 @@ import com.idevdroidapps.gitter.ui.viewmodels.SharedViewModel
 class RepoViewHolder(private val binding: ListItemRepoBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(repo: Repo?, viewModel: SharedViewModel) {
+    fun bind(repo: Repo?, viewModel: SharedViewModel?) {
         if (repo == null) {
             val resources = itemView.resources
             val textUnknown = resources.getString(R.string.unknown)

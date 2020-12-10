@@ -5,7 +5,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
+        android:background="@android:color/background_light"
+        tools:context="com.idevdroidapps.gitter.ui.fragments.RepoDetailsFragment">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/browser_button"
@@ -41,8 +45,8 @@
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:contentDescription="@string/hint_search"
             app:userAvatar="@{viewModel.currentRepo.owner.avatarUrl}"
             app:layout_constraintBottom_toBottomOf="parent"

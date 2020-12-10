@@ -10,7 +10,7 @@ import com.idevdroidapps.gitter.ui.viewmodels.SharedViewModel
 /**
  * Adapter for the list of repositories.
  */
-class ReposAdapter(private val viewModel: SharedViewModel) : PagingDataAdapter<Repo, ViewHolder>(REPO_COMPARATOR) {
+class ReposAdapter(private val viewModel: SharedViewModel?) : PagingDataAdapter<Repo, ViewHolder>(REPO_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return RepoViewHolder.from(parent)

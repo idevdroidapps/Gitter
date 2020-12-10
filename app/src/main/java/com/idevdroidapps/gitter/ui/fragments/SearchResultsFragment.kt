@@ -1,21 +1,25 @@
 package com.idevdroidapps.gitter.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.idevdroidapps.gitter.R
 import com.idevdroidapps.gitter.databinding.FragmentSearchResultsBinding
 import com.idevdroidapps.gitter.ui.adapters.ReposAdapter
 import com.idevdroidapps.gitter.ui.adapters.ReposLoadStateAdapter
+import com.idevdroidapps.gitter.ui.utils.onClickKeyboardDoneButton
 import com.idevdroidapps.gitter.ui.viewmodels.SharedViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -31,7 +35,7 @@ class SearchResultsFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchResultsBinding
     private val viewModel: SharedViewModel by activityViewModels()
-    private val adapter = ReposAdapter()
+    private lateinit var adapter: ReposAdapter
     private var searchJob: Job? = null
 
     override fun onCreateView(
@@ -41,7 +45,10 @@ class SearchResultsFragment : Fragment() {
     ): View {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_search_results, container, false)
+
         initAdapter()
+        initToolbar(binding)
+
         viewModel.currentQuery.observe(viewLifecycleOwner, { query ->
             searchJob?.cancel()
             searchJob = lifecycleScope.launch {
@@ -50,8 +57,10 @@ class SearchResultsFragment : Fragment() {
                 }
             }
         })
+        viewModel.currentRepo.observe(viewLifecycleOwner, {
+            findNavController().navigate(SearchResultsFragmentDirections.actionGlobalRepoDetailsFragment())
+        })
 
-        binding.viewModel = viewModel
         return binding.root
     }
 
@@ -75,6 +84,7 @@ class SearchResultsFragment : Fragment() {
         val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         binding.recyclerViewRepos.addItemDecoration(decoration)
 
+        adapter = ReposAdapter(viewModel)
         binding.recyclerViewRepos.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ReposLoadStateAdapter { adapter.retry() },
             footer = ReposLoadStateAdapter { adapter.retry() }
@@ -100,6 +110,43 @@ class SearchResultsFragment : Fragment() {
                 ).show()
             }
         }
+    }
+
+    /**
+     * Initializes the EditText input
+     *
+     * @param   binding The [FragmentSearchResultsBinding] received
+     */
+    private fun initToolbar(binding: FragmentSearchResultsBinding) {
+        val editText = binding.editTextRepoSearch
+        editText.onClickKeyboardDoneButton {
+            setCurrentQuery(binding)
+        }
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.editTextRepoSearch.hint = ""
+            } else {
+                binding.editTextRepoSearch.hint = getString(R.string.hint_search)
+            }
+        }
+        binding.imageViewSearchButton.setOnClickListener {
+            setCurrentQuery(binding)
+        }
+    }
+
+    /**
+     * Saves the current query to [SharedViewModel]
+     *
+     * @param   binding The [FragmentSearchResultsBinding] received
+     */
+    private fun setCurrentQuery(binding: FragmentSearchResultsBinding) {
+        binding.editTextRepoSearch.clearFocus()
+
+        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
+
+        val query = binding.editTextRepoSearch.text.toString()
+        viewModel.setCurrentQuery(query)
     }
 
 }

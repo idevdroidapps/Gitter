@@ -1,6 +1,5 @@
 package com.idevdroidapps.gitter.ui.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +19,9 @@ class SharedViewModel(private val githubRepository: GithubRepository) :
     ViewModel() {
 
     val currentQuery: LiveData<String> get() = mCurrentQuery
+    val currentRepo: LiveData<Repo> get() = mCurrentRepo
     private var mPreviousQuery: String? = null
+    private var mCurrentRepo = MutableLiveData<Repo>()
     private var mCurrentQuery = MutableLiveData<String>()
     private var mCurrentSearchResult: Flow<PagingData<Repo>>? = null
 
@@ -30,7 +31,6 @@ class SharedViewModel(private val githubRepository: GithubRepository) :
      * @param   queryString The query term to search, as a [String]
      */
     fun searchRepo(queryString: String): Flow<PagingData<Repo>> {
-        Log.d("GitHub", "SharedViewModel; Starting GitHub Query for: $queryString")
         val lastResult = mCurrentSearchResult
         if (queryString == mPreviousQuery && lastResult != null) {
             return lastResult
@@ -43,12 +43,20 @@ class SharedViewModel(private val githubRepository: GithubRepository) :
     }
 
     /**
+     * Sets the value for current repo LiveData
+     *
+     * @param   repo The currently selected [Repo]
+     */
+    fun setCurrentRepo(repo: Repo) {
+        mCurrentRepo.value = repo
+    }
+
+    /**
      * Sets the value for current query LiveData
      *
      * @param   queryString The query term to search, as a [String]
      */
     fun setCurrentQuery(queryString: String) {
-        Log.d("GitHub", "SharedViewModel; New Query Set to: $queryString")
         mCurrentQuery.value = queryString
     }
 

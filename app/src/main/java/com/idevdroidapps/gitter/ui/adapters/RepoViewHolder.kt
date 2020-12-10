@@ -7,6 +7,7 @@ import com.idevdroidapps.gitter.R
 import com.idevdroidapps.gitter.data.models.Owner
 import com.idevdroidapps.gitter.data.models.Repo
 import com.idevdroidapps.gitter.databinding.ListItemRepoBinding
+import com.idevdroidapps.gitter.ui.viewmodels.SharedViewModel
 
 /**
  * View Holder for a [Repo] RecyclerView list item.
@@ -14,7 +15,7 @@ import com.idevdroidapps.gitter.databinding.ListItemRepoBinding
 class RepoViewHolder(private val binding: ListItemRepoBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(repo: Repo?) {
+    fun bind(repo: Repo?, viewModel: SharedViewModel) {
         if (repo == null) {
             val resources = itemView.resources
             val textUnknown = resources.getString(R.string.unknown)
@@ -27,6 +28,7 @@ class RepoViewHolder(private val binding: ListItemRepoBinding) :
         } else {
             binding.repo = repo
         }
+        binding.viewModel = viewModel
         binding.executePendingBindings()
     }
 

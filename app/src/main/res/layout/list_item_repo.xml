@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/row_item_margin_horizontal"
+        android:onClick="@{() -> viewModel.setCurrentRepo(repo)}"
         android:paddingTop="@dimen/row_item_margin_vertical"
         tools:ignore="UnusedAttribute">
 
@@ -16,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{repo.name}"
-            android:textColor="@color/repoTitleColor"
+            android:textColor="@color/highlightColor"
             android:textSize="@dimen/repo_name_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,5 +102,8 @@
         <variable
             name="repo"
             type="com.idevdroidapps.gitter.data.models.Repo" />
+        <variable
+            name="viewModel"
+            type="com.idevdroidapps.gitter.ui.viewmodels.SharedViewModel" />
     </data>
 </layout>

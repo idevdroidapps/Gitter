@@ -29,7 +29,7 @@ interface GithubService {
 
         fun create(): GithubService {
             val logger = HttpLoggingInterceptor()
-            logger.level = HttpLoggingInterceptor.Level.BODY
+            logger.level = HttpLoggingInterceptor.Level.BASIC
 
             val client = OkHttpClient.Builder()
                 .addInterceptor(logger)

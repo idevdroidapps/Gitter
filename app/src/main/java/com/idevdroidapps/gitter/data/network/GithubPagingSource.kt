@@ -1,6 +1,5 @@
 package com.idevdroidapps.gitter.data.network
 
-import android.util.Log
 import androidx.paging.PagingSource
 import com.idevdroidapps.gitter.data.models.Repo
 import retrofit2.HttpException
@@ -17,7 +16,6 @@ class GithubPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Repo> {
         val position = params.key ?: GITHUB_STARTING_PAGE_INDEX
         val apiQuery = query + IN_QUALIFIER
-        Log.d("GitHub", "GithubPagingSource; Making query: $apiQuery")
         return try {
             val response = service.searchRepos(apiQuery, position, params.loadSize)
             val repos = response.items

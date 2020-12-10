@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
-    <color name="repoTitleColor">#1F75FE</color>
+    <color name="colorPrimary">#DEE2E6</color>
+    <color name="colorPrimaryDark">#CED4DA</color>
+    <color name="colorAccent">#495057</color>
+    <color name="highlightColor">#03DAC5</color>
 </resources>

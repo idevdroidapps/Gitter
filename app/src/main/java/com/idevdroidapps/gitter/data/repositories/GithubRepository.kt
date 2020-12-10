@@ -1,6 +1,5 @@
 package com.idevdroidapps.gitter.data.repositories
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -16,7 +15,6 @@ class GithubRepository(private val service: GithubService) {
      * every time we get more data from the network.
      */
     fun getSearchResultStream(query: String): Flow<PagingData<Repo>> {
-        Log.d("GitHub", "GithubRepository; Requesting for: $query")
         return Pager(
             config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = { GithubPagingSource(service, query) }
@@ -25,7 +23,7 @@ class GithubRepository(private val service: GithubService) {
 
     companion object {
 
-        private const val NETWORK_PAGE_SIZE = 50
+        private const val NETWORK_PAGE_SIZE = 30
 
         // For Singleton instantiation
         @Volatile

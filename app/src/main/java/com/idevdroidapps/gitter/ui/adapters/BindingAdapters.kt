@@ -1,11 +1,8 @@
 package com.idevdroidapps.gitter.ui.adapters
 
-import android.R
-import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -31,7 +28,6 @@ fun ImageView.userAvatar(avatarUrl: String?) {
     avatarUrl?.let { url ->
         val options = RequestOptions()
             .override(96, 96)
-            .placeholder(ColorDrawable(ContextCompat.getColor(this.context, R.color.background_light)))
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .fitCenter()
         try {

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.idevdroidapps.gitter.R
 import com.idevdroidapps.gitter.databinding.FragmentRepoDetailsBinding
 import com.idevdroidapps.gitter.ui.viewmodels.SharedViewModel
@@ -28,7 +27,7 @@ class RepoDetailsFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_repo_details, container, false)
 
         binding.closeButton.setOnClickListener {
-            findNavController().navigate(RepoDetailsFragmentDirections.actionGlobalSearchResultsFragment())
+            activity?.supportFragmentManager?.popBackStackImmediate()
         }
 
         binding.browserButton.setOnClickListener {

@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding =
             DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
-//        actionBar?.hide()
 
         viewModel =
             ViewModelProvider(this@MainActivity, Injection.provideMainActViewModelFactory()).get(
@@ -87,7 +86,6 @@ class MainActivity : AppCompatActivity() {
      * @param   binding The [ActivityMainBinding] received
      */
     private fun initAdapter(binding: ActivityMainBinding?) {
-        // add dividers between RecyclerView's row items
         val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         binding?.recyclerViewRepos?.addItemDecoration(decoration)
 
@@ -104,7 +102,6 @@ class MainActivity : AppCompatActivity() {
             // Show the retry state if initial load or refresh fails.
             binding?.retryButton?.isVisible = loadState.source.refresh is LoadState.Error
 
-            // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
             val errorState = loadState.source.append as? LoadState.Error
                 ?: loadState.source.prepend as? LoadState.Error
                 ?: loadState.append as? LoadState.Error
